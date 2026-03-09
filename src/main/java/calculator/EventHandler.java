@@ -45,4 +45,9 @@ public interface EventHandler {
      * Handle the clear/reset button press
      */
     void onClearPressed();
+
+    /**
+     * Handle the erasure of a singe digit
+     */
+    void onBackPressed();
 }

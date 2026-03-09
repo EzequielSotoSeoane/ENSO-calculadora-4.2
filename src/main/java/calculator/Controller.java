@@ -117,6 +117,15 @@ public class Controller implements EventHandler {
         view.clearDisplay();
         resetingInput = false;
     }
+
+    @Override
+    public void onBackPressed(){
+
+        if(!displayBuffer.isEmpty()){
+            displayBuffer.deleteCharAt(displayBuffer.length()-1);
+            view.setDisplay(displayBuffer.toString());
+        }
+    }
     
     private String formatResult(Double result) {
         if (Double.isNaN(result)) {
