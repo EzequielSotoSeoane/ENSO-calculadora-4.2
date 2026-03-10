@@ -18,6 +18,7 @@ public class Controller implements EventHandler {
     private final View view;
     private StringBuilder displayBuffer;
     private boolean resetingInput = false;
+    private Double numeroMemoria = null;
 
     public Controller(CalculatorModel model, View view) {
         this.model = model;
@@ -123,6 +124,37 @@ public class Controller implements EventHandler {
 
         if(!displayBuffer.isEmpty()){
             displayBuffer.deleteCharAt(displayBuffer.length()-1);
+            view.setDisplay(displayBuffer.toString());
+        }
+    }
+    @Override
+    public void onMCpressed(){
+        numeroMemoria = null;
+    }
+    
+    @Override
+    public void onMSpressed(){
+        if (!displayBuffer.isEmpty()){
+            numeroMemoria = view.getDisplayValue();
+        }
+    }
+    
+    @Override
+    public void onMRpressed(){
+        if (numeroMemoria == null){
+            return;
+        }
+        if (resetingInput) {
+            displayBuffer = new StringBuilder();
+            view.clearDisplay();
+            resetingInput = false;
+        }
+        if (numeroMemoria == Math.floor(numeroMemoria)) {
+            int entero = (int) numeroMemoria.doubleValue();
+            displayBuffer.append(entero);
+            view.setDisplay(displayBuffer.toString());
+        }else{
+            displayBuffer.append(numeroMemoria);
             view.setDisplay(displayBuffer.toString());
         }
     }
