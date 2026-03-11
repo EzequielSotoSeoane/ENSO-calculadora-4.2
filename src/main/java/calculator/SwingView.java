@@ -40,7 +40,7 @@ public class SwingView implements View {
     private final JButton butAdd, butMinus, butMultiply, butDivide,
             butEqual, butCancel, butSqrt, butSquare, butInv, butCos, 
             butSin, butTan, butPower, butLog, butPercent, butAbs, butBin, 
-            butln, butNegate, butDecimal, butBack;
+            butln, butNegate, butDecimal, butBack, butMS, butMC, butMR;
 
     private EventHandler eventHandler;
 
@@ -90,6 +90,9 @@ public class SwingView implements View {
         }
 
         // Function buttons
+        butMS = createButton("MS", ButtonType.FUNCTION);
+        butMC = createButton("MC", ButtonType.FUNCTION);
+        butMR = createButton("MR", ButtonType.FUNCTION);
         butAdd = createButton("+", ButtonType.FUNCTION);
         butMinus = createButton("-", ButtonType.FUNCTION);
         butMultiply = createButton("*", ButtonType.FUNCTION);
@@ -186,12 +189,17 @@ public class SwingView implements View {
         subPanels[7].add(butCos);
         subPanels[7].add(butSin);
         subPanels[7].add(butTan);
+        subPanels[7].add(Box.createHorizontalStrut(15));
+        subPanels[7].add(butMR);
         mainPanel.add(subPanels[7]);
 
         // --- Row 8 ---
         subPanels[8].add(butPercent);
         subPanels[8].add(butAbs);
         subPanels[8].add(butBin);
+        subPanels[8].add(Box.createHorizontalStrut(15));
+        subPanels[8].add(butMS);
+        subPanels[8].add(butMC);
         mainPanel.add(subPanels[8]);
     }
 
@@ -239,6 +247,9 @@ public class SwingView implements View {
         butEqual.addActionListener(e -> eventHandler.onEqualsPressed());
         butCancel.addActionListener(e -> eventHandler.onClearPressed());
         butBack.addActionListener(e -> eventHandler.onBackPressed());
+        butMR.addActionListener(e -> eventHandler.onMRpressed());
+        butMS.addActionListener(e -> eventHandler.onMSpressed());
+        butMC.addActionListener(e -> eventHandler.onMCpressed());
     }
 
     @Override
