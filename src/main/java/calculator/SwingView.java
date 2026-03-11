@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
+
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -25,8 +26,26 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import static calculator.domain.BinaryOperatorModes.*;
-import static calculator.domain.UnaryOperatorModes.*;
+import static calculator.domain.BinaryOperatorModes.ADD;
+import static calculator.domain.BinaryOperatorModes.DIVIDE;
+import static calculator.domain.BinaryOperatorModes.MINUS;
+import static calculator.domain.BinaryOperatorModes.MULTIPLY;
+import static calculator.domain.BinaryOperatorModes.POWER;
+import static calculator.domain.UnaryOperatorModes.ABS;
+import static calculator.domain.UnaryOperatorModes.ACOS;
+import static calculator.domain.UnaryOperatorModes.ASIN;
+import static calculator.domain.UnaryOperatorModes.ATAN;
+import static calculator.domain.UnaryOperatorModes.BIN;
+import static calculator.domain.UnaryOperatorModes.COS;
+import static calculator.domain.UnaryOperatorModes.INV;
+import static calculator.domain.UnaryOperatorModes.LN;
+import static calculator.domain.UnaryOperatorModes.LOG;
+import static calculator.domain.UnaryOperatorModes.NEGATE;
+import static calculator.domain.UnaryOperatorModes.PERCENT;
+import static calculator.domain.UnaryOperatorModes.SIN;
+import static calculator.domain.UnaryOperatorModes.SQRT;
+import static calculator.domain.UnaryOperatorModes.SQUARE;
+import static calculator.domain.UnaryOperatorModes.TAN;
 
 public class SwingView implements View {
 
@@ -37,9 +56,10 @@ public class SwingView implements View {
 
     private final JButton[] butNums;
     private final JButton butAdd, butMinus, butMultiply, butDivide,
-            butEqual, butCancel, butSqrt, butSquare, butInv, butCos,
+            butEqual, butCancel, butSqrt, butSquare, butInv, butCos, 
             butSin, butTan, butPower, butLog, butPercent, butAbs, butBin,
-            butln, butNegate, butDecimal, butBack, butPi, butE;
+            butln, butNegate, butDecimal, butBack, butMS, butMC, butMR, butAcos, butAsin, butAtan, butPi, butE;
+
 
     private EventHandler eventHandler;
 
@@ -68,8 +88,8 @@ public class SwingView implements View {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-        subPanels = new JPanel[11];
-        for (int i = 0; i < 11; i++) {
+        subPanels = new JPanel[12];
+        for (int i = 0; i < 12; i++) {
             subPanels[i] = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 3));
         }
 
@@ -91,6 +111,9 @@ public class SwingView implements View {
         }
 
         // Function buttons
+        butMS = createButton("MS", ButtonType.FUNCTION);
+        butMC = createButton("MC", ButtonType.FUNCTION);
+        butMR = createButton("MR", ButtonType.FUNCTION);
         butAdd = createButton("+", ButtonType.FUNCTION);
         butMinus = createButton("-", ButtonType.FUNCTION);
         butMultiply = createButton("*", ButtonType.FUNCTION);
@@ -114,6 +137,9 @@ public class SwingView implements View {
         butBack = createButton("<-", ButtonType.FUNCTION);
         butPi = createButton("π", ButtonType.NUMBER);
         butE = createButton("e", ButtonType.NUMBER);
+        butAcos = createButton("acos", ButtonType.FUNCTION);
+        butAsin = createButton("asin", ButtonType.FUNCTION);
+        butAtan = createButton("atan", ButtonType.FUNCTION);
 
         setupLayout();
     }
@@ -189,17 +215,26 @@ public class SwingView implements View {
         subPanels[7].add(butCos);
         subPanels[7].add(butSin);
         subPanels[7].add(butTan);
+        subPanels[7].add(Box.createHorizontalStrut(15));
+        subPanels[7].add(butMR);
         mainPanel.add(subPanels[7]);
 
         // --- Row 8 ---
         subPanels[8].add(butPercent);
         subPanels[8].add(butAbs);
         subPanels[8].add(butBin);
+        subPanels[8].add(Box.createHorizontalStrut(15));
+        subPanels[8].add(butMS);
+        subPanels[8].add(butMC);
         mainPanel.add(subPanels[8]);
 
         // --- Row 9 ---
+        subPanels[9].add(butAcos);
+        subPanels[9].add(butAsin);
+        subPanels[9].add(butAtan);
         subPanels[9].add(butPi);
         subPanels[9].add(butE);
+
         mainPanel.add(subPanels[9]);
     }
 
@@ -247,12 +282,18 @@ public class SwingView implements View {
         butAbs.addActionListener(e -> eventHandler.onUnaryOperatorPressed(ABS));
         butBin.addActionListener(e -> eventHandler.onUnaryOperatorPressed(BIN));
         butNegate.addActionListener(e -> eventHandler.onUnaryOperatorPressed(NEGATE));
+        butAcos.addActionListener(e -> eventHandler.onUnaryOperatorPressed(ACOS));
+        butAsin.addActionListener(e -> eventHandler.onUnaryOperatorPressed(ASIN));
+        butAtan.addActionListener(e -> eventHandler.onUnaryOperatorPressed(ATAN));
 
         // Other actions
         butDecimal.addActionListener(e -> eventHandler.onDecimalPressed());
         butEqual.addActionListener(e -> eventHandler.onEqualsPressed());
         butCancel.addActionListener(e -> eventHandler.onClearPressed());
         butBack.addActionListener(e -> eventHandler.onBackPressed());
+        butMR.addActionListener(e -> eventHandler.onMRpressed());
+        butMS.addActionListener(e -> eventHandler.onMSpressed());
+        butMC.addActionListener(e -> eventHandler.onMCpressed());
     }
 
     @Override

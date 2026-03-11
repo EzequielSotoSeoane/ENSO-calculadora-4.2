@@ -20,6 +20,9 @@ public enum UnaryOperatorModes {
     PERCENT,    // Percentage
     ABS,        // Absolute value
     BIN,        // Conversion from Decimal to Binary
-    NEGATE      // Change of sign
+    NEGATE,     // Change of sign
+    ACOS,       // Arccosine of an angle in Degrees
+    ASIN,       // Arcsine of an angle in Degrees
+    ATAN        // Arctangent of an angle in Degrees
 }
 
