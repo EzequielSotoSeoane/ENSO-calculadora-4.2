@@ -50,4 +50,19 @@ public interface EventHandler {
      * Handle the erasure of a singe digit
      */
     void onBackPressed();
+    
+    /**
+     * Handle the MC button press
+     */
+    void onMCpressed();
+    
+    /**
+     * Handle the MS button press
+     */
+    void onMSpressed();
+    
+    /**
+     * Handle the MC button press
+     */
+    void onMRpressed();
 }
