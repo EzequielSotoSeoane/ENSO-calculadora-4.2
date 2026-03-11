@@ -1,10 +1,9 @@
 /**
  * @name        Swing implementation of Calculator View interface
- * @package     calculator
- * @file        SwingView.java
- * @description 
+ * @package calculator
+ * @file SwingView.java
+ * @description
  */
-
 package calculator;
 
 import java.awt.Color;
@@ -59,7 +58,7 @@ public class SwingView implements View {
     private final JButton butAdd, butMinus, butMultiply, butDivide,
             butEqual, butCancel, butSqrt, butSquare, butInv, butCos, 
             butSin, butTan, butPower, butLog, butPercent, butAbs, butBin,
-            butln, butNegate, butDecimal, butBack, butMS, butMC, butMR, butAcos, butAsin, butAtan;
+            butln, butNegate, butDecimal, butBack, butMS, butMC, butMR, butAcos, butAsin, butAtan, butPi, butE;
 
 
     private EventHandler eventHandler;
@@ -72,7 +71,9 @@ public class SwingView implements View {
     private final DecimalFormat decimalFormat;
     private boolean startNewInput = true;
 
-    public enum ButtonType { NUMBER, FUNCTION }
+    public enum ButtonType {
+        NUMBER, FUNCTION
+    }
 
     public SwingView() throws IOException {
         Locale.setDefault(Locale.US);
@@ -99,9 +100,9 @@ public class SwingView implements View {
         text.setHorizontalAlignment(JTextField.RIGHT);
         text.setColumns(15);
         text.setBackground(Color.WHITE);
-        text.setOpaque(true); 
+        text.setOpaque(true);
         text.setBorder(javax.swing.BorderFactory.createLineBorder(
-            UIManager.getColor("Panel.background"), 5));
+                UIManager.getColor("Panel.background"), 5));
 
         // Number buttons
         butNums = new JButton[10];
@@ -134,6 +135,8 @@ public class SwingView implements View {
         butNegate = createButton("+/-", ButtonType.NUMBER);
         butDecimal = createButton(".", ButtonType.NUMBER);
         butBack = createButton("<-", ButtonType.FUNCTION);
+        butPi = createButton("π", ButtonType.NUMBER);
+        butE = createButton("e", ButtonType.NUMBER);
         butAcos = createButton("acos", ButtonType.FUNCTION);
         butAsin = createButton("asin", ButtonType.FUNCTION);
         butAtan = createButton("atan", ButtonType.FUNCTION);
@@ -229,6 +232,9 @@ public class SwingView implements View {
         subPanels[9].add(butAcos);
         subPanels[9].add(butAsin);
         subPanels[9].add(butAtan);
+        subPanels[9].add(butPi);
+        subPanels[9].add(butE);
+
         mainPanel.add(subPanels[9]);
     }
 
@@ -237,7 +243,9 @@ public class SwingView implements View {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        if (image != null) frame.setIconImage(image.getImage());
+        if (image != null) {
+            frame.setIconImage(image.getImage());
+        }
         frame.add(mainPanel);
         frame.setVisible(true);
     }
@@ -249,6 +257,10 @@ public class SwingView implements View {
             final int index = i;
             butNums[i].addActionListener(e -> eventHandler.onNumberPressed(index));
         }
+
+        // Special numbers
+        butPi.addActionListener(e -> eventHandler.onDecimalNumberPressed(3.1415926536));
+        butE.addActionListener(e -> eventHandler.onDecimalNumberPressed(2.7182818284));
 
         // Binary operators
         butAdd.addActionListener(e -> eventHandler.onBinaryOperatorPressed(ADD));
@@ -349,7 +361,9 @@ public class SwingView implements View {
 
     private ImageIcon loadIcon() throws IOException {
         try (InputStream is = getClass().getResourceAsStream("/icon/icon.png")) {
-            if (is == null) return null;
+            if (is == null) {
+                return null;
+            }
             BufferedImage bufferedImage = ImageIO.read(is);
             return new ImageIcon(bufferedImage);
         } catch (Exception e) {
